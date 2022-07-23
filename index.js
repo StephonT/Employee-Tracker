@@ -6,6 +6,7 @@ const inquirer = require('inquirer');
 var figlet = require('figlet');
 // import console.table
 const { clear } = require('console');
+const { response } = require('express');
 
 //add box lettering
 figlet("Employee \n Manager!", function (err, data) {
@@ -36,63 +37,109 @@ const connection = mysql.createConnection(
   //End of MySQL connection
 
 
-  //Inquirer to prompt User
-  const start = () => {
-    inquirer
-      .prompt({
-        name: "chooseAction",
-        type: "list",
-        message:
-          "Would you like to [VIEW], [ADD], or [UPDATE] a departments, roles, or employees?",
-        choices: ["VIEW", "ADD", "UPDATE", "END"],
-      })
-      .then((response) => {
+ // inquirer prompt for first action
+const promptUser = () => {
+  inquirer.prompt ([
+    {
+      type: 'list',
+      name: 'choices', 
+      message: 'What would you like to do?',
+      choices: ['View all departments', 
+                'View all roles', 
+                'View all employees', 
+                'Add a department', 
+                'Add a role', 
+                'Add an employee', 
+                'Update an employee role',
+                'Update an employee manager',
+                "View employees by department",
+                'Delete a department',
+                'Delete a role',
+                'Delete an employee',
+                'View department budgets',
+                'No Action']
+    }
+  ])
+    .then((answers) => {
+      const { choices } = answers; 
 
-        //View Selection
-        if(response.chooseAction === "VIEW") {
-          inquirer
-            .prompt({
-              name: "chooseView",
-              title: "list",
-              message: "What would you like to view?",
-              choices: ["Departments", "Roles", "Employees"],
-            })
-            .then((response) => {
-              //View Departments
-              if(response.chooseView === "departments") {
-                connection.query("SELECT * FROM departments", (err, res) => {
-                  if (err) throw err;
-                  console.table(res);
-                  start()
-                });
-              }
+      if (choices === "View all departments") {
+        showDepartments();
+      }
 
-              //View Roles
-              if(response.chooseView === "roles") {
-                connection.query("SELECT * FROM roles", (err, res) => {
-                  if (err) throw err;
-                  console.table(res);
-                  start()
-                });
-              }
+      if (choices === "View all roles") {
+        showRoles();
+      }
 
-              //View Employees
-              if(response.chooseView === "employees") {
-                connection.query("SELECT * FROM employees", (err, res) => {
-                  if (err) throw err;
-                  console.table(res);
-                  start()
-                })
-              }
+      if (choices === "View all employees") {
+        showEmployees();
+      }
 
-            })
-        }
-      })
-  }
+      if (choices === "Add a department") {
+        addDepartment();
+      }
+
+      if (choices === "Add a role") {
+        addRole();
+      }
+
+      if (choices === "Add an employee") {
+        addEmployee();
+      }
+
+      if (choices === "Update an employee role") {
+        updateEmployee();
+      }
+
+      if (choices === "Update an employee manager") {
+        updateManager();
+      }
+
+      if (choices === "View employees by department") {
+        employeeDepartment();
+      }
+
+      if (choices === "Delete a department") {
+        deleteDepartment();
+      }
+
+      if (choices === "Delete a role") {
+        deleteRole();
+      }
+
+      if (choices === "Delete an employee") {
+        deleteEmployee();
+      }
+
+      if (choices === "View department budgets") {
+        viewBudget();
+      }
+
+      if (choices === "No Action") {
+        connection.end()
+    };
+  });
+};
 
 
+//FUNCTIONS
+
+//Show All Departments
+showDepartments = () => {
+  console.log("Showing all departments ...\n");
+  const sql = `SELECT deparments.id AS id, departments.name AS departments FROM departments`;
+
+  connection.query(sql, (err,rows) => {
+    if (err) throw err;
+    console.table(rows);
+    promptUser();
+  });
+};
+
+  
+  
   connection.connect((err) => {
     if (err) throw err;
     // run the start function after the connection is made to prompt the user
-    start();
+    promptUser();
   });

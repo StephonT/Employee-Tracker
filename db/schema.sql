@@ -1,27 +1,32 @@
 -->will enable the creation of a new database and only attempt to drop the database if it exists.<--
 DROP DATABASE IF EXISTS employee_db;
 CREATE DATABASE employee_db;
-USE employee_db;
+USE employee_db; 
 
---> Table creations<--
-CREATE TABLE departments (
-    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE department (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(30) NOT NULL
 );
 
-CREATE TABLE roles (
-    id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(30) NOT NULL,
+CREATE TABLE role (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(30) NOT NULL, 
     salary DECIMAL NOT NULL,
-    department_id INTEGER 
+    department_id INTEGER, 
+    INDEX dep_ind (department_id),
+    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE SET NULL
 );
 
-CREATE TABLE employees  (
-    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE employee (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
-    role_id INTEGER,
-    manager_id INTEGER
+    role_id INTEGER, 
+    INDEX role_ind (role_id),
+    CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE SET NULL,
+    manager_id INTEGER,
+    INDEX manager_ind (manager_id),
+    CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
 );
 
 
