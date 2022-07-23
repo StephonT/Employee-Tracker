@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "start": "node index"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,10 @@
   },
   "homepage": "https://github.com/StephonT/Employee-Tracker#readme",
   "dependencies": {
+    "console.table": "^0.10.0",
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "figlet": "^1.5.2",
     "inquirer": "^8.2.4",
     "mysql2": "^2.3.3"
   }
