@@ -124,17 +124,34 @@ const promptUser = () => {
 
 //FUNCTIONS
 
-//Show All Departments
-showDepartments = () => {
-  console.log("Showing all departments ...\n");
-  const sql = `SELECT deparments.id AS id, departments.name AS departments FROM departments`;
 
-  connection.query(sql, (err,rows) => {
+// function to show all departments 
+showDepartments = () => {
+  console.log('Showing all departments...\n');
+  const sql = `SELECT department.id AS id, department.name AS department FROM department`; 
+
+  connection.query(sql, (err, rows) => {
     if (err) throw err;
     console.table(rows);
     promptUser();
   });
 };
+
+// function to show all roles 
+showRoles = () => {
+  console.log('Showing all roles...\n');
+
+  const sql = `SELECT role.id, role.title, department.name AS department
+               FROM role
+               INNER JOIN department ON role.department_id = department.id`;
+  
+  connection.query(sql, (err, rows) => {
+    if (err) throw err; 
+    console.table(rows); 
+    promptUser();
+  })
+};
+
 
   
   
