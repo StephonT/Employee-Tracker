@@ -5,8 +5,7 @@ const inquirer = require('inquirer');
 //import figlet for box lettering
 var figlet = require('figlet');
 // import console.table
-const { clear } = require('console');
-const { response } = require('express');
+const cTable = require('console.table'); 
 
 //add box lettering
 figlet("Employee \n Manager!", function (err, data) {
@@ -277,7 +276,7 @@ addEmployee = () => {
   inquirer.prompt([
     {
       type: 'input',
-      name: 'fistName',
+      name: 'firstName',
       message: "What is the employee's first name?",
       validate: addFirst => {
         if (addFirst) {
