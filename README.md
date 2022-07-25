@@ -18,7 +18,7 @@
   ## Usage
   This application will allow users to view, add, and edit employees, roles, departments, and managers.
   <br>
-  View walkthrough video via <a href="https://drive.google.com/file/d/1_nICDPompLPWJGdtTnFsyfEf_m1drIzk/view">Screencastify</a>
+  View walkthrough video via <a href="https://drive.google.com/file/d/1CBig4EZx1LOalduLSvhw2C3jkLVYCoYi/view">Screencastify</a>
 
   ## License
   This project is license under MIT
